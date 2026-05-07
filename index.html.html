@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Cardetian Intranet — CARDET Staff Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{--red:#E8323C;--red-d:#C42830;--red-l:#FDECEA;--navy:#1A2340;--navy-m:#2B3558;--navy-l:#EEF0F6;--gold:#F5A623;--gold-l:#FEF3DC;--bg:#F4F5F8;--white:#fff;--border:rgba(26,35,64,0.1);--muted:#6B7499;--green-l:#EDF7F0;--green:#276740;--blue-l:#EAF0FF;--blue:#185FA5;}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--navy);}
+.tb{background:var(--navy);height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:300;box-shadow:0 2px 12px rgba(26,35,64,.25);}
+.tb-brand{display:flex;align-items:center;gap:10px;cursor:pointer;text-decoration:none;}
+.tb-name{display:flex;flex-direction:column;}
+.tb-n1{font-size:13px;font-weight:700;color:var(--gold);letter-spacing:.08em;text-transform:uppercase;line-height:1;}
+.tb-n2{font-size:10px;color:rgba(255,255,255,.4);letter-spacing:.04em;margin-top:2px;}
+.tb-r{display:flex;align-items:center;gap:14px;}
+.tb-date{font-size:11px;color:rgba(255,255,255,.4);}
+.tb-user{display:flex;align-items:center;gap:7px;font-size:13px;color:rgba(255,255,255,.8);}
+.av{width:28px;height:28px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;}
+.search-bar{background:var(--white);border-bottom:1px solid var(--border);padding:10px 24px;display:flex;align-items:center;gap:10px;}
+.search-inp{flex:1;border:1.5px solid var(--border);border-radius:8px;padding:8px 14px;font-size:13px;color:var(--navy);background:var(--bg);outline:none;max-width:520px;font-family:inherit;}
+.search-inp:focus{border-color:var(--red);}
+.search-hint{font-size:12px;color:var(--muted);font-style:italic;}
+.nav{background:var(--white);border-bottom:2px solid var(--red);display:flex;padding:0 24px;overflow-x:auto;}
+.nb{padding:13px 18px;font-size:12px;font-weight:700;cursor:pointer;border:none;background:none;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;transition:color .15s;font-family:inherit;}
+.nb:hover{color:var(--red);}
+.nb.on{color:var(--red);border-bottom-color:var(--red);}
+.wrap{max-width:1080px;margin:0 auto;padding:20px 24px;display:grid;grid-template-columns:1fr 272px;gap:18px;}
+.left{min-width:0;}
+.sec{display:none;}
+.sec.on{display:block;}
+.hero{background:var(--navy);border-radius:12px;padding:26px 30px;display:flex;align-items:center;gap:22px;position:relative;overflow:hidden;margin-bottom:16px;}
+.hero::before{content:'';position:absolute;right:-30px;top:-30px;width:200px;height:200px;border-radius:50%;background:var(--red);opacity:.12;}
+.hero::after{content:'';position:absolute;right:80px;bottom:-60px;width:140px;height:140px;border-radius:50%;background:var(--gold);opacity:.09;}
+.hero-txt{position:relative;z-index:1;}
+.hero-h{font-family:'DM Serif Display',serif;font-size:22px;color:#fff;margin-bottom:5px;}
+.hero-s{font-size:13px;color:rgba(255,255,255,.55);line-height:1.6;}
+.hero-tag{display:inline-block;margin-top:10px;background:var(--red);color:#fff;font-size:10px;font-weight:700;padding:3px 12px;border-radius:20px;letter-spacing:.07em;text-transform:uppercase;}
+.hero-msc{position:relative;z-index:1;flex-shrink:0;}
+.card{background:var(--white);border-radius:10px;border:1px solid var(--border);padding:16px 20px;margin-bottom:14px;}
+.card:last-child{margin-bottom:0;}
+.ch{display:flex;align-items:center;gap:8px;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--border);}
+.ch-ic{width:26px;height:26px;background:var(--red-l);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;}
+.ct{font-size:11px;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.08em;}
+.tag{font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;display:inline-block;margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em;}
+.t-hr{background:var(--red-l);color:var(--red-d);}
+.t-proj{background:var(--blue-l);color:var(--blue);}
+.t-wb{background:var(--gold-l);color:#854F0B;}
+.t-ops{background:var(--green-l);color:var(--green);}
+.t-new{background:#F0E8FF;color:#5B21B6;}
+.ann{padding:9px 0;border-bottom:1px solid var(--border);}
+.ann:last-child{border-bottom:none;padding-bottom:0;}
+.ann-t{font-size:14px;font-weight:600;color:var(--navy);margin-bottom:2px;}
+.ann-m{font-size:12px;color:var(--muted);}
+.lg{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+.ql{display:flex;align-items:center;gap:8px;padding:9px 10px;background:var(--bg);border-radius:8px;border:1px solid var(--border);font-size:12px;color:var(--navy);text-decoration:none;cursor:pointer;transition:border-color .15s,color .15s;font-family:inherit;}
+.ql:hover{border-color:var(--red);color:var(--red);}
+.ql-ic{width:22px;height:22px;border-radius:5px;background:var(--red-l);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;}
+.ev{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);}
+.ev:last-child{border-bottom:none;}
+.ev-dt{min-width:42px;text-align:center;background:var(--red-l);border-radius:8px;padding:4px;flex-shrink:0;}
+.ev-day{font-size:17px;font-weight:700;color:var(--red);line-height:1;}
+.ev-mo{font-size:10px;color:var(--red-d);text-transform:uppercase;letter-spacing:.04em;}
+.ev-t{font-size:13px;font-weight:600;color:var(--navy);}
+.ev-d{font-size:12px;color:var(--muted);margin-top:2px;line-height:1.4;}
+.hr-r{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border);cursor:pointer;}
+.hr-r:last-child{border-bottom:none;}
+.hr-r:hover .hr-t{color:var(--red);}
+.hr-t{font-size:13px;font-weight:500;color:var(--navy);}
+.hr-s{font-size:11px;color:var(--muted);margin-top:2px;}
+.hr-arr{color:var(--red);font-size:14px;}
+.people-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;}
+.person{background:var(--bg);border-radius:10px;padding:14px 12px;border:1px solid var(--border);text-align:center;}
+.person-av{width:44px;height:44px;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;margin:0 auto 8px;}
+.person-name{font-size:13px;font-weight:700;color:var(--navy);}
+.person-role{font-size:11px;color:var(--muted);margin-top:2px;line-height:1.4;}
+.person-tags{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;margin-top:7px;}
+.person-tag{font-size:10px;background:var(--navy-l);color:var(--navy-m);padding:2px 6px;border-radius:10px;}
+.person-email{font-size:11px;color:var(--red);margin-top:6px;}
+.tools-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.tool-card{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:14px 16px;}
+.tool-ic{font-size:24px;margin-bottom:6px;}
+.tool-name{font-size:13px;font-weight:700;color:var(--navy);}
+.tool-desc{font-size:12px;color:var(--muted);margin-top:3px;line-height:1.5;}
+.tool-rule{font-size:11px;color:var(--red);margin-top:6px;font-weight:600;}
+.tool-link{display:inline-block;margin-top:8px;font-size:11px;font-weight:700;color:var(--red);text-decoration:none;}
+.tool-link:hover{text-decoration:underline;}
+.cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.cal-btn{background:none;border:1px solid var(--border);border-radius:6px;width:28px;height:28px;cursor:pointer;color:var(--muted);font-size:15px;display:flex;align-items:center;justify-content:center;font-family:inherit;}
+.cal-btn:hover{border-color:var(--red);color:var(--red);}
+.cal-g{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:4px;}
+.cal-dl{text-align:center;font-size:10px;font-weight:700;color:var(--muted);padding:4px 0;text-transform:uppercase;letter-spacing:.04em;}
+.cd{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--navy);border-radius:6px;position:relative;}
+.cd.today{background:var(--red);color:#fff;font-weight:700;}
+.cd.has{background:var(--red-l);color:var(--red-d);font-weight:600;cursor:pointer;}
+.cd.has::after{content:'';position:absolute;bottom:3px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:var(--red);}
+.fb-btn{display:block;width:100%;padding:12px 14px;background:var(--bg);border:1px solid var(--border);border-radius:8px;font-size:13px;font-weight:600;color:var(--navy);cursor:pointer;text-align:left;margin-bottom:8px;transition:border-color .15s;font-family:inherit;}
+.fb-btn:hover{border-color:var(--red);color:var(--red);}
+.fb-icon{font-size:16px;margin-right:8px;}
+textarea{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px 12px;font-size:13px;color:var(--navy);background:var(--bg);resize:vertical;min-height:80px;font-family:inherit;outline:none;margin-top:8px;}
+textarea:focus{border-color:var(--red);}
+.submit-btn{background:var(--red);color:#fff;border:none;border-radius:8px;padding:9px 22px;font-size:13px;font-weight:700;cursor:pointer;margin-top:8px;font-family:inherit;}
+.submit-btn:hover{background:var(--red-d);}
+.mini{background:var(--white);border-radius:10px;border:1px solid var(--border);padding:14px 16px;margin-bottom:14px;}
+.mini-t{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--red);margin-bottom:10px;}
+.c-row{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);}
+.c-row:last-child{border-bottom:none;}
+.c-av{width:28px;height:28px;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;}
+.c-name{font-size:13px;font-weight:500;color:var(--navy);}
+.c-role{font-size:11px;color:var(--muted);}
+.stat-row{display:flex;gap:8px;}
+.stat{flex:1;text-align:center;background:var(--bg);border-radius:8px;padding:8px 4px;}
+.stat-n{font-size:20px;font-weight:700;color:var(--navy);}
+.stat-l{font-size:10px;color:var(--muted);}
+.need-hr{background:var(--red);border-radius:10px;padding:14px 16px;text-align:center;margin-bottom:14px;}
+.need-hr-t{font-size:13px;font-weight:700;color:#fff;margin-bottom:3px;}
+.need-hr-s{font-size:12px;color:rgba(255,255,255,.72);margin-bottom:10px;}
+.need-hr-btn{background:#fff;color:var(--red);border:none;border-radius:6px;padding:7px 16px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;}
+.need-hr-btn:hover{background:var(--red-l);}
+.section-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.value-item{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);}
+.value-item:last-child{border-bottom:none;}
+.value-dot{width:8px;height:8px;border-radius:50%;background:var(--red);flex-shrink:0;margin-top:5px;}
+.value-t{font-size:13px;font-weight:600;color:var(--navy);}
+.value-d{font-size:12px;color:var(--muted);margin-top:2px;}
+.org-link{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;color:var(--navy);text-decoration:none;}
+.org-link:last-child{border-bottom:none;}
+.org-link:hover{color:var(--red);}
+.bd{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;}
+.bd:last-child{border-bottom:none;}
+@media(max-width:700px){.wrap{grid-template-columns:1fr;}.sidebar{display:none;}.lg{grid-template-columns:1fr 1fr;}.tools-grid{grid-template-columns:1fr;}.section-grid{grid-template-columns:1fr;}.people-grid{grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body>
+
+<div class="tb">
+  <a class="tb-brand" href="#" onclick="go('home',0);return false;">
+    <svg width="36" height="42" viewBox="0 0 38 44" fill="none">
+      <rect x="6" y="8" width="26" height="3.5" rx="1.8" fill="#F5A623"/>
+      <polygon points="19,3 7,8 31,8" fill="#F5A623"/>
+      <line x1="31" y1="9" x2="35" y2="14" stroke="#F5A623" stroke-width="1.4" stroke-linecap="round"/>
+      <circle cx="35" cy="15.5" r="1.8" fill="#F5A623"/>
+      <rect x="10" y="11" width="18" height="17" rx="7" fill="#FFD4A8"/>
+      <circle cx="15.5" cy="18" r="1.5" fill="#1A2340"/>
+      <circle cx="22.5" cy="18" r="1.5" fill="#1A2340"/>
+      <circle cx="16" cy="17.4" r="0.5" fill="white"/>
+      <circle cx="23" cy="17.4" r="0.5" fill="white"/>
+      <path d="M15.5 22.5 Q19 25 22.5 22.5" stroke="#C87941" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+      <rect x="17" y="27" width="4" height="3" rx="1" fill="#FFD4A8"/>
+      <path d="M8 31 Q8 29 19 29 Q30 29 30 31 L30 42 Q19 44 8 42 Z" fill="#E8323C"/>
+      <path d="M19 29 L17 34 L19 36 L21 34 Z" fill="white" opacity=".9"/>
+      <rect x="3" y="30" width="6" height="11" rx="3" fill="#E8323C"/>
+      <rect x="29" y="30" width="6" height="11" rx="3" fill="#E8323C"/>
+      <circle cx="6" cy="42" r="3" fill="#FFD4A8"/>
+      <circle cx="32" cy="42" r="3" fill="#FFD4A8"/>
+      <rect x="13" y="41" width="4" height="3" rx="2" fill="#1A2340"/>
+      <rect x="21" y="41" width="4" height="3" rx="2" fill="#1A2340"/>
+    </svg>
+    <div class="tb-name"><span class="tb-n1">Cardetian</span><span class="tb-n2">Staff Intranet</span></div>
+  </a>
+  <div class="tb-r">
+    <span class="tb-date" id="top-date"></span>
+    <div class="tb-user"><div class="av">C</div><span>Welcome!</span></div>
+  </div>
+</div>
+
+<div class="search-bar">
+  <input class="search-inp" type="text" placeholder="🔍  Try &quot;who speaks Arabic&quot; or &quot;leave request&quot; or &quot;Erasmus project&quot;…"/>
+  <span class="search-hint">Smart search — coming soon</span>
+</div>
+
+<div class="nav">
+  <button class="nb on" onclick="go('home',0)">🏠 Home</button>
+  <button class="nb" onclick="go('org',1)">🏢 Org Hub</button>
+  <button class="nb" onclick="go('hr',2)">👥 People &amp; HR</button>
+  <button class="nb" onclick="go('comms',3)">📣 Comms</button>
+  <button class="nb" onclick="go('tools',4)">🛠 Digital Tools</button>
+  <button class="nb" onclick="go('cal',5)">📅 Calendar</button>
+  <button class="nb" onclick="go('feedback',6)">💡 Feedback</button>
+</div>
+
+<!-- HOME -->
+<div id="s-home" class="sec on">
+<div class="wrap">
+  <div class="left">
+    <div class="hero">
+      <div class="hero-msc">
+        <svg width="64" height="74" viewBox="0 0 38 44" fill="none">
+          <rect x="6" y="8" width="26" height="3.5" rx="1.8" fill="#F5A623"/>
+          <polygon points="19,3 7,8 31,8" fill="#F5A623"/>
+          <line x1="31" y1="9" x2="35" y2="14" stroke="#F5A623" stroke-width="1.4" stroke-linecap="round"/>
+          <circle cx="35" cy="15.5" r="1.8" fill="#F5A623"/>
+          <rect x="10" y="11" width="18" height="17" rx="7" fill="#FFD4A8"/>
+          <circle cx="15.5" cy="18" r="1.5" fill="#1A2340"/><circle cx="22.5" cy="18" r="1.5" fill="#1A2340"/>
+          <circle cx="16" cy="17.4" r="0.5" fill="white"/><circle cx="23" cy="17.4" r="0.5" fill="white"/>
+          <path d="M15.5 22.5 Q19 25 22.5 22.5" stroke="#C87941" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+          <rect x="17" y="27" width="4" height="3" rx="1" fill="#FFD4A8"/>
+          <path d="M8 31 Q8 29 19 29 Q30 29 30 31 L30 42 Q19 44 8 42 Z" fill="#E8323C"/>
+          <path d="M19 29 L17 34 L19 36 L21 34 Z" fill="white" opacity=".9"/>
+          <rect x="3" y="30" width="6" height="11" rx="3" fill="#E8323C"/>
+          <rect x="29" y="30" width="6" height="11" rx="3" fill="#E8323C"/>
+          <circle cx="6" cy="42" r="3" fill="#FFD4A8"/><circle cx="32" cy="42" r="3" fill="#FFD4A8"/>
+          <rect x="13" y="41" width="4" height="3" rx="2" fill="#1A2340"/>
+          <rect x="21" y="41" width="4" height="3" rx="2" fill="#1A2340"/>
+        </svg>
+      </div>
+      <div class="hero-txt">
+        <div class="hero-h">Welcome, Cardetians! 👋</div>
+        <div class="hero-s">Your central space for everything CARDET — news, people, tools, and more.<br>Inspiring next generation education, one day at a time.</div>
+        <span class="hero-tag">Staff Portal</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ch"><div class="ch-ic">📢</div><span class="ct">Latest Announcements</span></div>
+      <div class="ann"><span class="tag t-hr">HR</span><div class="ann-t">Performance appraisal cycle is now open</div><div class="ann-m">7 May 2026 · Self-assessments due 30 May · See People &amp; HR for the form</div></div>
+      <div class="ann"><span class="tag t-proj">Project</span><div class="ann-t">EUPP5 Digital Democracy workshop kicks off</div><div class="ann-m">6 May 2026 · Nicosia · 09:00–15:00</div></div>
+      <div class="ann"><span class="tag t-wb">Wellbeing</span><div class="ann-t">Monthly team walk — sign-ups open 🚶</div><div class="ann-m">15 May 2026 · Athalassa Park · 08:30</div></div>
+      <div class="ann"><span class="tag t-new">New Joiner</span><div class="ann-t">Welcome our new Digital Marketing Executive!</div><div class="ann-m">Starting 12 May — let's give them a warm Cardetian welcome 🎉</div></div>
+      <div class="ann"><span class="tag t-ops">Ops</span><div class="ann-t">We're hiring! Coordinator of Project Management</div><div class="ann-m">Share with your network · cardet.org/careers</div></div>
+    </div>
+    <div class="card">
+      <div class="ch"><div class="ch-ic">🔗</div><span class="ct">Quick Links &amp; Tool Shortcuts</span></div>
+      <div class="lg">
+        <a class="ql" href="https://teamwork.com" target="_blank"><span class="ql-ic">✅</span>Teamwork</a>
+        <a class="ql" href="https://mail.google.com" target="_blank"><span class="ql-ic">📧</span>Gmail</a>
+        <a class="ql" href="https://drive.google.com" target="_blank"><span class="ql-ic">📁</span>Drive</a>
+        <a class="ql" href="https://calendar.google.com" target="_blank"><span class="ql-ic">📅</span>Calendar</a>
+        <a class="ql" href="https://chat.google.com" target="_blank"><span class="ql-ic">💬</span>Chat</a>
+        <a class="ql" href="https://cardet.org" target="_blank"><span class="ql-ic">🌐</span>cardet.org</a>
+        <a class="ql" href="#" onclick="go('hr',2);return false;"><span class="ql-ic">📋</span>HR Forms</a>
+        <a class="ql" href="#" onclick="go('tools',4);return false;"><span class="ql-ic">🛠</span>All Tools</a>
+        <a class="ql" href="#" onclick="go('feedback',6);return false;"><span class="ql-ic">💡</span>Submit an Idea</a>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ch"><div class="ch-ic">📆</div><span class="ct">Upcoming Events</span></div>
+      <div class="ev"><div class="ev-dt"><div class="ev-day">15</div><div class="ev-mo">May</div></div><div><div class="ev-t">Team walk ☕</div><div class="ev-d">Athalassa Park · 08:30 · All staff welcome</div></div></div>
+      <div class="ev"><div class="ev-dt"><div class="ev-day">21</div><div class="ev-mo">May</div></div><div><div class="ev-t">Monthly staff meeting</div><div class="ev-d">Conference Room A · 10:00</div></div></div>
+      <div class="ev"><div class="ev-dt"><div class="ev-day">28</div><div class="ev-mo">May</div></div><div><div class="ev-t">L&amp;D webinar: AI in Education</div><div class="ev-d">Online · 11:00–12:00</div></div></div>
+      <div class="ev"><div class="ev-dt"><div class="ev-day">30</div><div class="ev-mo">May</div></div><div><div class="ev-t">⏰ Appraisal deadline</div><div class="ev-d">Self-assessment forms due</div></div></div>
+    </div>
+  </div>
+  <div class="sidebar">
+    <div class="need-hr"><div class="need-hr-t">Need HR support?</div><div class="need-hr-s">Reach out on Google Chat — we're here for you.</div><button class="need-hr-btn" onclick="window.open('https://chat.google.com','_blank')">💬 Open Chat</button></div>
+    <div class="mini">
+      <div class="mini-t">Key Contacts</div>
+      <div class="c-row"><div class="c-av">E</div><div><div class="c-name">Eliana</div><div class="c-role">People &amp; Culture · HR</div></div></div>
+      <div class="c-row"><div class="c-av">P</div><div><div class="c-name">Panayiotis</div><div class="c-role">Management</div></div></div>
+      <div class="c-row"><div class="c-av">K</div><div><div class="c-name">Kyriako</div><div class="c-role">Team Lead</div></div></div>
+      <div class="c-row"><div class="c-av" style="font-size:9px;">OP</div><div><div class="c-name">Ourania Pavlou</div><div class="c-role">Research &amp; Projects</div></div></div>
+      <div class="c-row"><div class="c-av" style="font-size:9px;">NF</div><div><div class="c-name">Nikolina F.</div><div class="c-role">Research &amp; Projects</div></div></div>
+      <div class="c-row"><div class="c-av">Ki</div><div><div class="c-name">Kiki</div><div class="c-role">Operations</div></div></div>
+    </div>
+    <div class="mini">
+      <div class="mini-t">Birthdays &amp; Anniversaries 🎂</div>
+      <div class="bd"><span>🎂</span><span style="color:var(--muted);">Add birthdays here</span></div>
+      <div class="bd"><span>🎉</span><span style="color:var(--muted);">Add anniversaries here</span></div>
+    </div>
+    <div class="mini">
+      <div class="mini-t">CARDET by numbers</div>
+      <div class="stat-row">
+        <div class="stat"><div class="stat-n">20+</div><div class="stat-l">Years</div></div>
+        <div class="stat"><div class="stat-n">100+</div><div class="stat-l">Projects</div></div>
+        <div class="stat"><div class="stat-n">20+</div><div class="stat-l">Countries</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ORG HUB -->
+<div id="s-org" class="sec">
+<div class="wrap">
+  <div class="left">
+    <div class="card">
+      <div class="ch"><div class="ch-ic">🌍</div><span class="ct">About CARDET</span></div>
+      <p style="font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:14px;">CARDET (Center for the Advancement of Research and Development in Educational Technology) is the leading independent research and education centre in Cyprus and one of the prominent ones in the Euro-Mediterranean region. We design, develop, and implement innovative, evidence-based approaches to build competencies of individuals and communities.</p>
+      <div class="section-grid">
+        <div><div style="font-size:11px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px;">Mission</div><p style="font-size:13px;color:var(--muted);line-height:1.6;">Inspiring next generation education, and promoting research, innovation and development.</p></div>
+        <div><div style="font-size:11px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px;">Vision</div><p style="font-size:13px;color:var(--muted);line-height:1.6;">A just and sustainable world, where people learn and flourish.</p></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ch"><div class="ch-ic">💎</div><span class="ct">Values</span></div>
+      <div class="value-item"><div class="value-dot"></div><div><div class="value-t">Excellence</div><div class="value-d">Highest quality research, development, and education</div></div></div>
+      <div class="value-item"><div class="value-dot"></div><div><div class="value-t">Innovation</div><div class="value-d">Cutting-edge, evidence-based approaches</div></div></div>
+      <div class="value-item"><div class="value-dot"></div><div><div class="value-t">Social Justice</div><div class="value-d">Equality, diversity, and inclusion at the core</div></div></div>
+      <div class="value-item"><div class="value-dot"></div><div><div class="value-t">Collaboration</div><div class="value-d">Partners around the world, stronger together</div></div></div>
+      <div class="value-item"><div class="value-dot"></div><div><div class="value-t">Impact</div><div class="value-d">Education as a force for meaningful social change</div></div></div>
+    </div>
+    <div class="card">
+      <div class="ch"><div class="ch-ic">👥</div><span class="ct">People Directory</span></div>
+      <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">Find who knows what, speaks which language, or worked on which project.</p>
+      <div class="people-grid">
+        <div class="person"><div class="person-av">E</div><div class="person-name">Eliana</div><div class="person-role">People &amp; Culture · HR</div><div class="person-tags"><span class="person-tag">HR</span><span class="person-tag">EN</span><span class="person-tag">GR</span></div><div class="person-email">hr@cardet.org</div></div>
+        <div class="person"><div class="person-av">P</div><div class="person-name">Panayiotis</div><div class="person-role">Management</div><div class="person-tags"><span class="person-tag">Leadership</span><span class="person-tag">EN</span><span class="person-tag">GR</span></div></div>
+        <div class="person"><div class="person-av">K</div><div class="person-name">Kyriako</div><div class="person-role">Team Lead</div><div class="person-tags"><span class="person-tag">Projects</span><span class="person-tag">EN</span></div></div>
+        <div class="person"><div class="person-av" style="font-size:10px;">OP</div><div class="person-name">Ourania P.</div><div class="person-role">Research &amp; Projects</div><div class="person-tags"><span class="person-tag">Research</span><span class="person-tag">EU</span></div></div>
+        <div class="person"><div class="person-av" style="font-size:10px;">NF</div><div class="person-name">Nikolina F.</div><div class="person-role">Research &amp; Projects</div><div class="person-tags"><span class="person-tag">Research</span><span class="person-tag">EU</span></div></div>
+        <div class="person"><div class="person-av">Ki</div><div class="person-name">Kiki</div><div class="person-role">Operations</div><div class="person-tags"><span class="person-tag">Ops</span><span class="person-tag">GR</span></div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ch"><div class="ch-ic">🔗</div><span class="ct">Organisations &amp; Social Media</span></div>
+      <a class="org-link" href="https://cardet.org" target="_blank">🌐 cardet.org — Main Website</a>
+      <a class="org-link" href="https://www.linkedin.com/company/cardetngo" target="_blank">💼 LinkedIn — CARDET NGO</a>
+      <a class="org-link" href="https://www.facebook.com/CARDETngo/" target="_blank">📘 Facebook — @CARDETngo</a>
+      <a class="org-link" href="https://www.instagram.com/cardetngo/" target="_blank">📸 Instagram — @cardetngo</a>
+      <a class="org-link" href="https://x.com/cardetngo" target="_blank">🐦 X — @CardetNGO</a>
+      <a class="org-link" href="https://www.youtube.com/@CardetNgo" target="_blank">▶ YouTube — CardetNgo</a>
+    </div>
+  </div>
+  <div class="sidebar">
+    <div class="mini"><div class="mini-t">Office Information</div><div style="font-size:13px;color:var(--muted);line-height:2;">📍 46 Makedonitissas Ave<br>CY-2417 Nicosia, Cyprus<br>📞 +357 22 841500<br>📧 info@cardet.org</div></div>
+    <div class="mini">
+      <div class="mini-t">Who does what?</div>
+      <div class="hr-r"><div><div class="hr-t">HR &amp; People matters</div><div class="hr-s">→ Eliana</div></div></div>
+      <div class="hr-r"><div><div class="hr-t">IT &amp; Systems</div><div class="hr-s">→ Google Chat #it-support</div></div></div>
+      <div class="hr-r"><div><div class="hr-t">Finance &amp; Expenses</div><div class="hr-s">→ Contact HR for referral</div></div></div>
+      <div class="hr-r"><div><div class="hr-t">Project coordination</div><div class="hr-s">→ Your project lead / Teamwork</div></div></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- PEOPLE & HR -->
+<div id="s-hr" class="sec">
+<div class="wrap">
+  <div class="left">
+    <div class="card">
+      <div class="ch"><div class="ch-ic">📄</div><span class="ct">Policies</span></div>
+      <div class="hr-r"><div><div class="hr-t">Employee Handbook</div><div class="hr-s">Updated Jan 2026</div></div><span class="hr-arr">›</span></div>
+      <div class="hr-r"><div><div class="hr-t">Leave &amp; Absence Procedures</div><div class="hr-s">Annual, sick, parental leave · Cyprus law aligned</div></div><span class="hr-arr">›</span></div>
+      <div class="hr-r"><div><div class="hr-t">Flexible Working Arrangements</div><div class="hr-s">Updated Mar 2026</div></div><span class="hr-arr">›</span></div>
+      <div class="hr-r"><div><div class="hr-t">Benefits Overview</div><div class="hr-s">What CARDET offers its people</div></div><span class="hr-arr">›</span></div>
+      <div class="hr-r"><div><div class="hr-t">Internal Communication Policy</div><div class="hr-s">Google Chat · Teamwork guidelines</div></div><span class="hr-arr">›</span></div>
+      <div class="hr-r"><div><div class="hr-t">Equality, Diversity &amp; Inclusion</div><div class="hr-s">CARDET EDI commitments</div></div><span class="hr-arr">›</span></div>
+      <div class="hr-r"><div><div class="hr-t">Competency Framework</div><div class="hr-s">Roles, levels, and expectations</div></div><span class="hr-arr">›</span></div>
+      <div class="hr-r"><div><div class="hr-t">Code of Conduct</div><div class="hr-s">Behavioural expectations</div></div><span class="hr-arr">›</span></div>
+    </div>
+    <div class="card">
+      <div class="ch"><div class="ch-ic">✍️</div><span class="ct">Templates &amp; Forms</span></div>
+      <div class="hr-r"><div><div class="hr-t">Annual Leave Request</div><div class="hr-s">Google Form</div></div><span class="hr-arr">›</span></div>
+      <div class="hr-r"><div><div class="hr-t">Remote / Flexible Work Request</div><div class="hr-s">Google Form</div></div><span class="hr-arr">›</span></div>
+      <div class="hr-r"><div><div class="hr-t">Training &amp; Development Request</div><div class="hr-s">Google Form · Links to SkillCamp</div></div><span class="hr-arr">›</span></div>
+      <div class="hr-r"><div><div class="hr-t">Expense Reimbursement</div><div class="hr-s">Google Form</div></div><span class="hr-arr">›</span></div>
+      <div class="hr-r"><div><div class="hr-t">Performance Self-Assessment 2026</div><div class="hr-s">⏰ Due 30 May 2026</div></div><span class="hr-arr">›</span></div>
+      <div class="hr-r"><div><div class="hr-t">Exit Interview Form</div><div class="hr-s">Confidential · HR only</div></div><span class="hr-arr">›</span></div>
+    </div>
+    <div class="card">
+      <div class="ch"><div class="ch-ic">🎓</div><span class="ct">Onboarding Hub</span></div>
+      <div class="hr-r"><div><div class="hr-t">New Staff Onboarding Checklist</div><div class="hr-s">Before Day 1 → Month 3</div></div><span class="hr-arr">›</span></div>
+      <div class="hr-r"><div><div class="hr-t">IT &amp; Systems Setup Guide</div><div class="hr-s">Google Workspace · Teamwork · Knack</div></div><span class="hr-arr">›</span></div>
+      <div class="hr-r"><div><div class="hr-t">Probation Review Template</div><div class="hr-s">Manager &amp; HR guide</div></div><span class="hr-arr">›</span></div>
+      <div class="hr-r"><div><div class="hr-t">Meet your team — Org Chart</div><div class="hr-s">See Org Hub for full directory</div></div><span class="hr-arr">›</span></div>
+    </div>
+  </div>
+  <div class="sidebar">
+    <div class="need-hr"><div class="need-hr-t">Questions?</div><div class="need-hr-s">HR is here to help — reach Eliana on Google Chat.</div><button class="need-hr-btn" onclick="window.open('https://chat.google.com','_blank')">💬 Chat with HR</button></div>
+    <div class="mini">
+      <div class="mini-t">Wellbeing &amp; Resources</div>
+      <div class="hr-r"><div><div class="hr-t">EAP — Employee Assistance</div><div class="hr-s">Confidential · 24/7</div></div><span class="hr-arr">›</span></div>
+      <div class="hr-r"><div><div class="hr-t">Mental Health at Work Guide</div></div><span class="hr-arr">›</span></div>
+      <div class="hr-r"><div><div class="hr-t">L&amp;D Catalogue 2026</div></div><span class="hr-arr">›</span></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- COMMS -->
+<div id="s-comms" class="sec">
+<div class="wrap">
+  <div class="left">
+    <div class="card">
+      <div class="ch"><div class="ch-ic">📣</div><span class="ct">Official Announcements Wall</span></div>
+      <div class="ann"><span class="tag t-hr">HR</span><div class="ann-t">Performance appraisal cycle is now open</div><div class="ann-m">7 May 2026</div></div>
+      <div class="ann"><span class="tag t-proj">Project</span><div class="ann-t">EUPP5 Digital Democracy workshop</div><div class="ann-m">6 May 2026 · Nicosia</div></div>
+      <div class="ann"><span class="tag t-new">New Joiner</span><div class="ann-t">Welcome our new Digital Marketing Executive!</div><div class="ann-m">Starting 12 May 2026</div></div>
+      <div class="ann"><span class="tag t-ops">Update</span><div class="ann-t">Yale School of Public Health MOU — partnership active</div><div class="ann-m">International collaboration milestone</div></div>
+    </div>
+    <div class="card">
+      <div class="ch"><div class="ch-ic">🎊</div><span class="ct">Community &amp; Culture — Recognition Wall</span></div>
+      <div class="ann"><span class="tag t-wb">Milestone</span><div class="ann-t">🎉 CARDET turns 20+ years!</div><div class="ann-m">A celebration of our people, projects, and impact</div></div>
+      <div class="ann"><span class="tag t-new">New Joiner</span><div class="ann-t">Welcome our newest Cardetian! 🎈</div><div class="ann-m">Say hello on Google Chat!</div></div>
+      <div class="ann"><span class="tag t-proj">Achievement</span><div class="ann-t">SWPBS: 100+ schools, 2,000 teachers, 10,000 students reached 🌟</div><div class="ann-m">Huge milestone — well done team!</div></div>
+    </div>
+    <div class="card">
+      <div class="ch"><div class="ch-ic">📰</div><span class="ct">Internal Newsletter</span></div>
+      <div class="hr-r"><div><div class="hr-t">May 2026 Newsletter</div><div class="hr-s">Latest edition</div></div><span class="hr-arr">›</span></div>
+      <div class="hr-r"><div><div class="hr-t">April 2026 Newsletter</div><div class="hr-s">Archive</div></div><span class="hr-arr">›</span></div>
+      <div class="hr-r"><div><div class="hr-t">March 2026 Newsletter</div><div class="hr-s">Archive</div></div><span class="hr-arr">›</span></div>
+    </div>
+  </div>
+  <div class="sidebar">
+    <div class="mini"><div class="mini-t">Birthdays 🎂</div><div class="bd"><span>🎂</span><span style="color:var(--muted);">Add staff birthdays here</span></div></div>
+    <div class="mini"><div class="mini-t">Anniversaries 🎉</div><div class="bd"><span>🎉</span><span style="color:var(--muted);">Add work anniversaries here</span></div></div>
+  </div>
+</div>
+</div>
+
+<!-- TOOLS -->
+<div id="s-tools" class="sec">
+<div class="wrap">
+  <div class="left">
+    <div class="card">
+      <div class="ch"><div class="ch-ic">🛠</div><span class="ct">Digital Tools Hub</span></div>
+      <div class="tools-grid">
+        <div class="tool-card"><div class="tool-ic">✅</div><div class="tool-name">Teamwork</div><div class="tool-desc">Task assignment, project tracking, time logging. Main platform for all project work.</div><div class="tool-rule">📌 All tasks must be logged here — not via Google Chat.</div><a class="tool-link" href="https://teamwork.com" target="_blank">Open Teamwork →</a></div>
+        <div class="tool-card"><div class="tool-ic">📧</div><div class="tool-name">Gmail / Google Workspace</div><div class="tool-desc">Email, Drive, Calendar, Chat, Docs. Our core collaboration suite.</div><div class="tool-rule">📌 Google Chat for quick queries only.</div><a class="tool-link" href="https://mail.google.com" target="_blank">Open Gmail →</a></div>
+        <div class="tool-card"><div class="tool-ic">👤</div><div class="tool-name">PeopleHR</div><div class="tool-desc">HR management system — leave requests, absences, employee records.</div><div class="tool-rule">📌 Submit all leave requests through this platform.</div><a class="tool-link" href="#" target="_blank">Open PeopleHR →</a></div>
+        <div class="tool-card"><div class="tool-ic">🗄</div><div class="tool-name">Knack</div><div class="tool-desc">Database and project information management. Contact your project lead for access.</div><div class="tool-rule">📌 Project data lives here.</div><a class="tool-link" href="#" target="_blank">Open Knack →</a></div>
+        <div class="tool-card"><div class="tool-ic">🎓</div><div class="tool-name">SkillCamp</div><div class="tool-desc">CARDET's learning platform for staff training and development courses.</div><div class="tool-rule">📌 All L&amp;D courses accessed here.</div><a class="tool-link" href="#" target="_blank">Open SkillCamp →</a></div>
+        <div class="tool-card"><div class="tool-ic">🎨</div><div class="tool-name">Canva (Pro)</div><div class="tool-desc">Design tool for presentations, social media, reports. CARDET has a Pro account.</div><div class="tool-rule">📌 Use CARDET brand templates only.</div><a class="tool-link" href="https://canva.com" target="_blank">Open Canva →</a></div>
+      </div>
+    </div>
+  </div>
+  <div class="sidebar">
+    <div class="mini"><div class="mini-t">Need access?</div><div style="font-size:13px;color:var(--muted);line-height:1.6;">Request tool access via HR or your line manager. IT support via Google Chat #it-support.</div></div>
+    <div class="mini"><div class="mini-t">Communication Rules</div><div style="font-size:13px;color:var(--muted);line-height:2.1;">💬 <b>Google Chat</b> — quick queries<br>✅ <b>Teamwork</b> — task assignment<br>📧 <b>Gmail</b> — formal comms<br>📅 <b>Calendar</b> — meeting invites</div></div>
+  </div>
+</div>
+</div>
+
+<!-- CALENDAR -->
+<div id="s-cal" class="sec">
+<div class="wrap">
+  <div class="left">
+    <div class="card">
+      <div class="ch"><div class="ch-ic">📅</div><span class="ct">Cardetian Calendar</span></div>
+      <div class="cal-nav">
+        <button class="cal-btn" onclick="cm(-1)">&#8249;</button>
+        <span id="cal-title" style="font-size:14px;font-weight:700;color:var(--navy);">May 2026</span>
+        <button class="cal-btn" onclick="cm(1)">&#8250;</button>
+      </div>
+      <div class="cal-g" id="cal-g"></div>
+    </div>
+    <div class="card">
+      <div class="ch"><div class="ch-ic">🗓</div><span class="ct">All Upcoming Events</span></div>
+      <div class="ev"><div class="ev-dt"><div class="ev-day">15</div><div class="ev-mo">May</div></div><div><div class="ev-t">Team walk ☕</div><div class="ev-d">Wellbeing · Athalassa Park · 08:30</div></div></div>
+      <div class="ev"><div class="ev-dt"><div class="ev-day">21</div><div class="ev-mo">May</div></div><div><div class="ev-t">Monthly staff meeting</div><div class="ev-d">Internal · Conf Room A · 10:00</div></div></div>
+      <div class="ev"><div class="ev-dt"><div class="ev-day">28</div><div class="ev-mo">May</div></div><div><div class="ev-t">L&amp;D: AI in Education webinar</div><div class="ev-d">Training · Online · 11:00–12:00</div></div></div>
+      <div class="ev"><div class="ev-dt"><div class="ev-day">30</div><div class="ev-mo">May</div></div><div><div class="ev-t">⏰ Appraisal deadline</div><div class="ev-d">HR · Self-assessment due</div></div></div>
+      <div class="ev"><div class="ev-dt"><div class="ev-day">5</div><div class="ev-mo">Jun</div></div><div><div class="ev-t">Team appreciation lunch 🍽</div><div class="ev-d">Community · Location TBC</div></div></div>
+    </div>
+  </div>
+  <div class="sidebar">
+    <div class="mini"><div class="mini-t">Cyprus Public Holidays 2026</div><div style="font-size:12px;color:var(--muted);line-height:2.2;">✦ 1 Jan — New Year's Day<br>✦ 6 Jan — Epiphany<br>✦ 25 Mar — Greek Independence<br>✦ 1 Apr — Cyprus National Day<br>✦ Good Friday &amp; Easter Mon<br>✦ 1 May — Labour Day<br>✦ Kataklysmos<br>✦ 15 Aug — Assumption<br>✦ 1 Oct — Cyprus Independence<br>✦ 28 Oct — Oxi Day<br>✦ 25–26 Dec — Christmas</div></div>
+    <div class="need-hr"><div class="need-hr-t">Add an event?</div><div class="need-hr-s">Contact HR to add events to the Cardetian Calendar.</div><button class="need-hr-btn" onclick="window.open('https://chat.google.com','_blank')">💬 Contact HR</button></div>
+  </div>
+</div>
+</div>
+
+<!-- FEEDBACK -->
+<div id="s-feedback" class="sec">
+<div class="wrap">
+  <div class="left">
+    <div class="card">
+      <div class="ch"><div class="ch-ic">💡</div><span class="ct">Feedback &amp; Engagement Hub</span></div>
+      <p style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:16px;">Your voice matters. Share ideas, suggestions, feedback, or innovations — every Cardetian's input shapes how we grow.</p>
+      <button class="fb-btn" onclick="showFb('idea')"><span class="fb-icon">💡</span>Submit an Innovation Idea</button>
+      <button class="fb-btn" onclick="showFb('suggestion')"><span class="fb-icon">📬</span>Suggestion Box</button>
+      <button class="fb-btn" onclick="showFb('feedback')"><span class="fb-icon">📝</span>General Feedback</button>
+      <button class="fb-btn" onclick="showFb('wellbeing')"><span class="fb-icon">💚</span>Wellbeing Feedback (Anonymous)</button>
+    </div>
+    <div class="card" id="fb-form" style="display:none;">
+      <div class="ch"><div class="ch-ic" id="fb-ic">💡</div><span class="ct" id="fb-title">Submit an idea</span></div>
+      <textarea id="fb-text" placeholder="Share your thoughts here…"></textarea>
+      <button class="submit-btn" onclick="submitFb()">Submit →</button>
+    </div>
+    <div class="card" id="fb-thanks" style="display:none;">
+      <div style="text-align:center;padding:20px 0;">
+        <div style="font-size:36px;margin-bottom:10px;">🙌</div>
+        <div style="font-size:15px;font-weight:700;color:var(--navy);margin-bottom:4px;">Thank you, Cardetian!</div>
+        <div style="font-size:13px;color:var(--muted);">Your feedback has been received. We appreciate you speaking up.</div>
+      </div>
+    </div>
+  </div>
+  <div class="sidebar">
+    <div class="mini"><div class="mini-t">Why your voice matters</div><div style="font-size:13px;color:var(--muted);line-height:1.7;font-style:italic;">"We believe great ideas can come from anyone. Your feedback helps us grow, improve, and stay true to our values."</div></div>
+    <div class="mini">
+      <div class="mini-t">Other channels</div>
+      <div class="hr-r"><div><div class="hr-t">Talk to HR</div><div class="hr-s">Eliana · Google Chat</div></div></div>
+      <div class="hr-r"><div><div class="hr-t">Monthly staff meeting</div><div class="hr-s">Open agenda items welcome</div></div></div>
+      <div class="hr-r"><div><div class="hr-t">Wellbeing &amp; Inclusion Committee</div><div class="hr-s">EDI and wellbeing issues</div></div></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+var MN=['January','February','March','April','May','June','July','August','September','October','November','December'];
+var cy=2026,cmo=4,evts={4:[15,21,28,30]};
+function renderCal(){
+  document.getElementById('cal-title').textContent=MN[cmo]+' '+cy;
+  var g=document.getElementById('cal-g'),dls=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  var h=dls.map(function(d){return'<div class="cal-dl">'+d+'</div>';}).join('');
+  var fd=new Date(cy,cmo,1).getDay();fd=(fd===0)?6:fd-1;
+  for(var i=0;i<fd;i++)h+='<div class="cd"></div>';
+  var dim=new Date(cy,cmo+1,0).getDate(),td=new Date(),ee=evts[cmo]||[];
+  for(var d=1;d<=dim;d++){var c='cd';if(d===td.getDate()&&cmo===td.getMonth()&&cy===td.getFullYear())c+=' today';else if(ee.indexOf(d)>-1)c+=' has';h+='<div class="'+c+'">'+d+'</div>';}
+  g.innerHTML=h;
+}
+function cm(dir){cmo+=dir;if(cmo<0){cmo=11;cy--;}if(cmo>11){cmo=0;cy++;}renderCal();}
+function go(id,idx){
+  ['home','org','hr','comms','tools','cal','feedback'].forEach(function(s){document.getElementById('s-'+s).classList.remove('on');});
+  document.getElementById('s-'+id).classList.add('on');
+  document.querySelectorAll('.nb').forEach(function(b){b.classList.remove('on');});
+  document.querySelectorAll('.nb')[idx].classList.add('on');
+  window.scrollTo(0,0);
+}
+var fbMap={idea:{ic:'💡',t:'Submit an Innovation Idea'},suggestion:{ic:'📬',t:'Suggestion Box'},feedback:{ic:'📝',t:'General Feedback'},wellbeing:{ic:'💚',t:'Wellbeing Feedback (Anonymous)'}};
+function showFb(type){document.getElementById('fb-thanks').style.display='none';document.getElementById('fb-form').style.display='block';document.getElementById('fb-ic').textContent=fbMap[type].ic;document.getElementById('fb-title').textContent=fbMap[type].t;document.getElementById('fb-text').value='';}
+function submitFb(){document.getElementById('fb-form').style.display='none';document.getElementById('fb-thanks').style.display='block';}
+var d=new Date(),ds=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],ms=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+document.getElementById('top-date').textContent=ds[d.getDay()]+' '+d.getDate()+' '+ms[d.getMonth()]+' '+d.getFullYear();
+renderCal();
+</script>
+</body>
+</html>
